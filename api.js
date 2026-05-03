@@ -2,7 +2,7 @@ const _0x4421 = [
     'https://api.nexray.eu.cc/downloader/tiktok?url=', 
     'GET',                                            
     'application/json',                               
-    'SNAPTT_'                                         
+    'SNAPTT_dckodevz_'                                         
 ];
 
 async function fetchTikTok(_0xinput) {
