@@ -6,13 +6,11 @@
     <title>SNAPTT - TikTok Downloader HD</title>
 
     <meta name="description" content="SNAPTT adalah alat download video TikTok tanpa watermark kualitas HD. Cepat, gratis, dan tanpa login.">
-    <meta property="og:title" content="SNAPTT - TikTok Engine">
-    <meta property="og:image" content="thumb.jpg">
-
+    
     <style>
         :root {
-            --primary: #00f2ea;
-            --accent: #ff0050;
+            --primary: #00f2ea; /* Biru TikTok */
+            --accent: #ff0050;  /* Merah TikTok */
             --bg: #050505;
             --card: #111111;
             --text-muted: #888;
@@ -32,8 +30,172 @@
 
         .container {
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
             background: var(--card);
+            padding: 40px 25px;
+            border-radius: 30px;
+            border: 1px solid #222;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            margin-bottom: 20px;
+        }
+
+        .brand { margin-bottom: 30px; }
+        .brand h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: 2px; }
+        .brand span { display: block; font-size: 0.85rem; color: var(--accent); text-transform: uppercase; letter-spacing: 4px; font-weight: 600; }
+
+        input { width: 100%; padding: 18px; border-radius: 15px; border: 1px solid #333; background: #000; color: #fff; outline: none; font-size: 14px; margin-bottom: 20px; transition: 0.3s; }
+        input:focus { border-color: var(--primary); }
+
+        .btn-fetch { width: 100%; padding: 16px; border: none; border-radius: 15px; background: #fff; color: #000; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn-fetch:hover { background: var(--primary); transform: translateY(-2px); }
+
+        /* Statistics Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #222;
+        }
+        .stat-item { text-align: center; }
+        .stat-value { display: block; font-size: 1rem; font-weight: 800; color: var(--primary); }
+        .stat-label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .dot { height: 6px; width: 6px; background-color: #00ff00; border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 8px #00ff00; }
+
+        /* Accordion FAQ */
+        .section-title { font-size: 0.8rem; color: var(--primary); margin: 30px 0 10px; text-transform: uppercase; font-weight: 700; text-align: left; border-left: 3px solid var(--accent); padding-left: 10px; }
+        
+        details { background: #0a0a0a; border-radius: 12px; margin-bottom: 8px; text-align: left; border: 1px solid #1a1a1a; overflow: hidden; }
+        summary { padding: 15px; font-size: 0.8rem; font-weight: 600; cursor: pointer; list-style: none; transition: 0.2s; }
+        summary:hover { background: #161616; }
+        details p { padding: 0 15px 15px; font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; }
+
+        /* Results Area */
+        #result { display: none; margin-top: 30px; animation: slideUp 0.4s ease; }
+        .video-wrapper { width: 100%; border-radius: 20px; overflow: hidden; border: 1px solid #333; margin-bottom: 20px; background: #000; }
+        video { width: 100%; aspect-ratio: 9/16; display: block; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-dl { padding: 14px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .mp4 { background: var(--accent); color: white; }
+        .mp3 { background: #252525; color: white; }
+        
+        .loader { display: none; width: 25px; height: 25px; border: 3px solid #222; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto; }
+        footer { font-size: 0.7rem; color: #444; margin: 20px 0; }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="brand">
+            <h1>SNAPTT</h1>
+            <span>TikTok Engine</span>
+        </div>
+
+        <input type="text" id="url" placeholder="Tempel link video TikTok...">
+        <button id="btn" class="btn-fetch" onclick="handleFetch()">DAPATKAN VIDEO</button>
+        
+        <div class="loader" id="loading"></div>
+
+        <div id="result">
+            <div class="video-wrapper">
+                <video id="player" controls poster=""></video>
+            </div>
+            
+            <div class="grid">
+                <button onclick="handleDownload('video')" class="btn-dl mp4">SIMPAN VIDEO</button>
+                <button onclick="handleDownload('audio')" class="btn-dl mp3">SIMPAN AUDIO</button>
+            </div>
+            <p id="msg" style="font-size: 10px; color: #555; margin-top: 15px;"></p>
+        </div>
+
+        <h3 class="section-title">Informasi & Bantuan</h3>
+        
+        <details>
+            <summary>Bagaimana cara download?</summary>
+            <p>Salin link video dari aplikasi TikTok, tempelkan pada kolom input di atas, lalu tekan tombol "Dapatkan Video".</p>
+        </details>
+
+        <details>
+            <summary>Apakah video tanpa watermark?</summary>
+            <p>Ya, SNAPTT secara otomatis mengambil versi video kualitas HD tanpa tanda air (no-watermark).</p>
+        </details>
+
+        <details>
+            <summary>Gagal mengambil video?</summary>
+            <p>Pastikan akun TikTok tidak diprivat dan link yang Anda masukkan benar. Jika tetap gagal, server mungkin sedang sibuk, silakan coba lagi beberapa saat.</p>
+        </details>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-value">99.9%</span>
+                <span class="stat-label">Uptime</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">Online</span>
+                <span class="stat-label"><span class="dot"></span>Status</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">1.4k+</span>
+                <span class="stat-label">Users</span>
+            </div>
+        </div>
+    </div>
+
+    <footer>&copy; 2026 DICKODEVZ - SNAPTT</footer>
+
+    <script src="api.js"></script>
+    <script>
+        let sessionData = null;
+
+        async function handleFetch() {
+            const input = document.getElementById('url').value;
+            const btn = document.getElementById('btn');
+            const player = document.getElementById('player');
+
+            if(!input) return;
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            btn.disabled = true;
+
+            try {
+                const data = await fetchTikTok(input);
+                if(data.status) {
+                    sessionData = data.result;
+                    player.src = sessionData.data;
+                    player.poster = sessionData.cover;
+                    player.load();
+                    document.getElementById('result').style.display = 'block';
+                } else {
+                    alert("Gagal mengambil video!");
+                }
+            } catch (e) {
+                alert("Server sedang sibuk!");
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                btn.disabled = false;
+            }
+        }
+
+        async function handleDownload(type) {
+            if(!sessionData) return;
+            const msg = document.getElementById('msg');
+            msg.innerText = "Memproses...";
+            
+            const url = type === 'video' ? sessionData.data : sessionData.music_info.url;
+            const ext = type === 'video' ? 'mp4' : 'mp3';
+            
+            const success = await triggerDownload(url, ext);
+            msg.innerText = success ? "Berhasil!" : "Membuka tab baru...";
+        }
+    </script>
+</body>
+</html>
             padding: 35px 25px;
             border-radius: 30px;
             border: 1px solid #222;
