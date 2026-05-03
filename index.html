@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html lang="id">
-<!DOCTYPE html>
-<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SNAPTT - TikTok Downloader HD</title>
 
-    <meta name="description" content="SNAPTT adalah alat download video TikTok tanpa watermark kualitas HD...">
-    <meta property="og:title" content="SNAPTT - Download Video TikTok Tanpa Watermark HD">
-    <meta property="og:image" content="https://snaptt.vercel.app/thumb.jpg">
+    <meta name="description" content="SNAPTT adalah alat download video TikTok tanpa watermark kualitas HD. Cepat, gratis, dan tanpa login.">
+    <meta property="og:type" content="website">
     <meta property="og:url" content="https://snaptt.vercel.app">
-    
+    <meta property="og:title" content="SNAPTT - TikTok Downloader No Watermark">
+    <meta property="og:description" content="Download video TikTok secepat kilat. Simpan dalam format MP4 atau MP3!">
+    <meta property="og:image" content="https://snaptt.vercel.app/thumb.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://snaptt.vercel.app/thumb.jpg">
+
+    <link rel="icon" type="image/jpeg" href="thumb.jpg">
+
     <style>
         :root {
-            --primary: #00f2ea;
-            --accent: #ff0050;
+            --primary: #00f2ea; /* Biru TikTok */
+            --accent: #ff0050;  /* Merah TikTok */
             --bg: #050505;
             --card: #111111;
             --text-muted: #888;
@@ -46,47 +52,32 @@
         }
 
         .brand { margin-bottom: 30px; }
-        .brand h1 { font-size: 2rem; font-weight: 900; letter-spacing: 2px; line-height: 1.1; }
-        .brand span { display: block; font-size: 0.85rem; color: var(--accent); text-transform: uppercase; letter-spacing: 4px; margin-top: 5px; font-weight: 600; }
+        .brand h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: 2px; }
+        .brand span { display: block; font-size: 0.85rem; color: var(--accent); text-transform: uppercase; letter-spacing: 4px; font-weight: 600; }
 
-        input { width: 100%; padding: 18px; border-radius: 15px; border: 1px solid #333; background: #000; color: #fff; outline: none; font-size: 14px; transition: 0.3s; margin-bottom: 20px; }
+        input { width: 100%; padding: 18px; border-radius: 15px; border: 1px solid #333; background: #000; color: #fff; outline: none; font-size: 14px; margin-bottom: 20px; transition: 0.3s; }
         input:focus { border-color: var(--primary); }
 
         .btn-fetch { width: 100%; padding: 16px; border: none; border-radius: 15px; background: #fff; color: #000; font-weight: 800; cursor: pointer; transition: 0.3s; }
         .btn-fetch:hover { background: var(--primary); transform: translateY(-2px); }
 
-        /* Area Video Preview */
         #result { display: none; margin-top: 30px; animation: slideUp 0.4s ease; }
-        
-        .video-wrapper {
-            width: 100%;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid #333;
-            margin-bottom: 20px;
-            background: #000;
-        }
-
-        video { width: 100%; display: block; aspect-ratio: 9/16; background: #000; }
+        .video-wrapper { width: 100%; border-radius: 20px; overflow: hidden; border: 1px solid #333; margin-bottom: 20px; background: #000; }
+        video { width: 100%; aspect-ratio: 9/16; display: block; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .btn-dl { padding: 14px; border: none; border-radius: 12px; font-weight: bold; font-size: 13px; cursor: pointer; transition: 0.2s; }
-        .btn-dl:active { transform: scale(0.95); }
+        .btn-dl { padding: 14px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .mp4 { background: var(--accent); color: white; }
         .mp3 { background: #252525; color: white; }
 
-        /* Sections */
-        .section-title { font-size: 0.9rem; color: var(--primary); margin: 25px 0 15px; text-transform: uppercase; font-weight: 700; border-bottom: 1px solid #222; padding-bottom: 5px; }
-        .info-text { font-size: 0.8rem; color: var(--text-muted); text-align: left; line-height: 1.6; }
-        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .stat-item { background: #1a1a1a; padding: 10px; border-radius: 10px; font-size: 0.75rem; }
-        .stat-item b { display: block; color: var(--primary); font-size: 1rem; }
+        .section-title { font-size: 0.8rem; color: var(--primary); margin: 25px 0 10px; text-transform: uppercase; font-weight: 700; text-align: left; border-left: 3px solid var(--accent); padding-left: 10px; }
+        .info-text { font-size: 0.75rem; color: var(--text-muted); text-align: left; line-height: 1.6; }
         
         .loader { display: none; width: 25px; height: 25px; border: 3px solid #222; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto; }
-        footer { font-size: 0.7rem; color: #444; margin-bottom: 20px; }
+        footer { font-size: 0.7rem; color: #444; margin: 20px 0; }
 
         @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -94,117 +85,81 @@
     <div class="container">
         <div class="brand">
             <h1>SNAPTT</h1>
-            <span>Tiktok Downloader</span>
+            <span>TikTok Engine</span>
         </div>
 
         <input type="text" id="url" placeholder="Tempel link video TikTok...">
-        <button id="btn" class="btn-fetch" onclick="fetchData()">DAPATKAN VIDEO</button>
+        <button id="btn" class="btn-fetch" onclick="handleFetch()">DAPATKAN VIDEO</button>
         
         <div class="loader" id="loading"></div>
 
         <div id="result">
             <div class="video-wrapper">
-                <video id="player" controls poster="">
-                    <source id="videoSrc" src="" type="video/mp4">
-                    Browser Anda tidak mendukung tag video.
-                </video>
+                <video id="player" controls poster=""></video>
             </div>
             
             <div class="grid">
-                <button onclick="download('video')" class="btn-dl mp4">SIMPAN VIDEO</button>
-                <button onclick="download('audio')" class="btn-dl mp3">SIMPAN AUDIO</button>
+                <button onclick="handleDownload('video')" class="btn-dl mp4">SIMPAN VIDEO</button>
+                <button onclick="handleDownload('audio')" class="btn-dl mp3">SIMPAN AUDIO</button>
             </div>
             <p id="msg" style="font-size: 10px; color: #555; margin-top: 15px;"></p>
         </div>
 
-        <h3 class="section-title">Cara Pakai</h3>
+        <h3 class="section-title">Panduan</h3>
         <div class="info-text">
-            1. Salin link video dari TikTok.<br>
-            2. Tempel di kolom atas & klik Dapatkan Video.<br>
-            3. Video akan muncul, tekan tombol play untuk menonton.<br>
-            4. Klik tombol simpan jika ingin mengunduh.
-        </div>
-
-        <h3 class="section-title">Statistik Server</h3>
-        <div class="stats">
-            <div class="stat-item">Status <b>Online</b></div>
-            <div class="stat-item">Preview <b>Aktif</b></div>
+            1. Salin link video TikTok.<br>
+            2. Tempel dan klik dapatkan video.<br>
+            3. Pilih format MP4 atau MP3 untuk simpan.
         </div>
     </div>
 
-    <footer>&copy; 2024 DICKODEVZ. All Rights Reserved.</footer>
-<script>
-        let resData = null;
+    <footer>&copy; 2026 DICKODEVZ - SNAPTT</footer>
 
-        async function fetchData() {
-            const val = document.getElementById('url').value;
-            const videoPlayer = document.getElementById('player');
-            const videoSrc = document.getElementById('videoSrc');
+    <script src="api.js"></script>
+    <script>
+        let sessionData = null;
 
-            if(!val) return;
+        async function handleFetch() {
+            const input = document.getElementById('url').value;
+            const btn = document.getElementById('btn');
+            const player = document.getElementById('player');
+
+            if(!input) return;
 
             document.getElementById('loading').style.display = 'block';
             document.getElementById('result').style.display = 'none';
-            document.getElementById('btn').disabled = true;
-
-            // Stop video lama jika sedang terputar
-            videoPlayer.pause();
+            btn.disabled = true;
 
             try {
-                const response = await fetch(`https://api.nexray.eu.cc/downloader/tiktok?url=${encodeURIComponent(val)}`);
-                const json = await response.json();
-
-                if(json.status) {
-                    resData = json.result;
-                    
-                    // Set Video Source dan Poster (Thumbnail)
-                    videoPlayer.poster = resData.cover;
-                    videoSrc.src = resData.data;
-                    
-                    // Reload video agar source baru terbaca
-                    videoPlayer.load();
-                    
+                const data = await fetchTikTok(input);
+                if(data.status) {
+                    sessionData = data.result;
+                    player.src = sessionData.data;
+                    player.poster = sessionData.cover;
+                    player.load();
                     document.getElementById('result').style.display = 'block';
                 } else {
-                    alert("Video tidak ditemukan atau link salah.");
+                    alert("Gagal mengambil video!");
                 }
             } catch (e) {
-                alert("Gagal menghubungkan ke server.");
+                alert("Server sedang sibuk!");
             } finally {
                 document.getElementById('loading').style.display = 'none';
-                document.getElementById('btn').disabled = false;
+                btn.disabled = false;
             }
         }
 
-        async function download(type) {
-            const url = type === 'video' ? resData.data : resData.music_info.url;
-            const ext = type === 'video' ? 'mp4' : 'mp3';
+        async function handleDownload(type) {
+            if(!sessionData) return;
             const msg = document.getElementById('msg');
+            msg.innerText = "Memproses...";
             
-            msg.innerText = "Memproses unduhan...";
-
-            try {
-                const response = await fetch(url);
-                const blob = await response.blob();
-                const blobUrl = window.URL.createObjectURL(blob);
-                
-                const a = document.createElement('a');
-                a.href = blobUrl;
-                a.download = `dickodevz_${Date.now()}.${ext}`;
-                document.body.appendChild(a);
-                a.click();
-                
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                    window.URL.revokeObjectURL(blobUrl);
-                    msg.innerText = "Berhasil disimpan!";
-                }, 1000);
-            } catch (e) {
-                // Fallback jika fetch blob gagal (biasanya karena CORS)
-                window.open(url, '_blank');
-                msg.innerText = "Membuka di tab baru...";
-            }
+            const url = type === 'video' ? sessionData.data : sessionData.music_info.url;
+            const ext = type === 'video' ? 'mp4' : 'mp3';
+            
+            const success = await triggerDownload(url, ext);
+            msg.innerText = success ? "Berhasil!" : "Membuka tab baru...";
         }
-</script>
+    </script>
 </body>
 </html>
