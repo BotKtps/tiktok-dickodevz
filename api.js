@@ -1,4 +1,52 @@
-/* SNAPTT - PROTECTED SYSTEM
-   © 2026 DickoDevz Security Engine
+/* SNAPTT - PRIVATE ENGINE 
+   Copyright 2026 DickoDevz
 */
-const _0x56a1=['\x63\x72\x65\x61\x74\x65\x4f\x62\x6a\x65\x63\x74\x55\x52\x4c','\x61\x70\x69\x2e\x6e\x65\x78\x72\x61\x79\x2e\x65\x75\x2e\x63\x63','\x64\x6f\x77\x6e\x6c\x6f\x61\x64\x65\x72','\x63\x6c\x69\x63\x6b','\x72\x65\x76\x6f\x6b\x65\x4f\x62\x6a\x65\x63\x74\x55\x52\x4c','\x61\x70\x70\x65\x6e\x64\x43\x68\x69\x6c\x64','\x62\x6c\x6f\x62','\x68\x74\x74\x70\x73\x3a\x2f\x2f'];(function(_0x32ae13,_0x56a14d){const _0x3b5f92=function(_0x444f80){while(--_0x444f80){_0x32ae13['push'](_0x32ae13['shift']());}};_0x3b5f92(++_0x56a14d);}(_0x56a1,0x14d));const _0x3b5f=function(_0x32ae13,_0x56a14d){_0x32ae13=_0x32ae13-0x0;let _0x3b5f92=_0x56a1[_0x32ae13];return _0x3b5f92;};const _0x2a1=(_0x1b)=>_0x3b5f('0x7')+_0x3b5f('0x1')+'\x2f'+_0x3b5f('0x2')+'\x2f\x74\x69\x6b\x74\x6f\x6b\x3f\x75\x72\x6c\x3d'+encodeURIComponent(_0x1b);async function fetchTikTok(_0x4e){try{const _0x2d=await fetch(_0x2a1(_0x4e));return await _0x2d['json']();}catch(_0x5b){return{'\x73\x74\x61\x74\x75\x73':!0x1};}}async function triggerDownload(_0x3e,_0x2f){try{const _0x1c=await fetch(_0x3e);const _0x4a=await _0x1c[_0x3b5f('0x6')]();const _0x59=window['URL'][_0x3b5f('0x0')](_0x4a);const _0x1a=document['createElement']('\x61');_0x1a['href']=_0x59;_0x1a['download']='\x53\x4e\x41\x50\x54\x54\x5f'+Date['now']()+'\x2e'+_0x2f;document['body'][_0x3b5f('0x5')](_0x1a);_0x1a[_0x3b5f('0x3')]();setTimeout(()=>{document['body']['removeChild'](_0x1a);window['URL'][_0x3b5f('0x4')](_0x59);},0x7d0);return!![];}catch(_0x3a){window['open'](_0x3e,'\x5f\x62\x6c\x61\x6e\x6b');return!0x1;}}
+
+(function() {
+    // URL API disembunyikan menggunakan Base64 (aHR0cHM6...)
+    // Ini diterjemahkan menjadi: https://api.nexray.eu.cc/downloader/tiktok?url=
+    const _0x1a2b = "aHR0cHM6Ly9hcGkubmV4cmF5LmV1LmNjL2Rvd25sb2FkZXIvdGlrdG9rP3VybD0=";
+    const _decode = (s) => atob(s);
+
+    // Fungsi Ambil Data TikTok (Protected)
+    window.fetchTikTok = async function(_inputUrl) {
+        try {
+            const _endpoint = _decode(_0x1a2b) + encodeURIComponent(_inputUrl);
+            const _response = await fetch(_endpoint, {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (!_response.ok) throw new Error();
+            return await _response.json();
+        } catch (_err) {
+            console.error("Connection Error");
+            return { status: false };
+        }
+    };
+
+    // Fungsi Download (Hardened)
+    window.triggerDownload = async function(_file, _ext) {
+        try {
+            const _res = await fetch(_file);
+            const _blob = await _res.blob();
+            const _bUrl = window.URL.createObjectURL(_blob);
+            
+            const _el = document.createElement('a');
+            _el.href = _bUrl;
+            _el.download = `SNAPTT_${Date.now()}.${_ext}`;
+            document.body.appendChild(_el);
+            _el.click();
+            
+            setTimeout(() => {
+                document.body.removeChild(_el);
+                window.URL.revokeObjectURL(_bUrl);
+            }, 2000);
+            return true;
+        } catch (_e) {
+            // Fallback: Jika kena CORS, buka di tab baru agar tetap bisa unduh
+            window.open(_file, '_blank');
+            return false;
+        }
+    };
+})();
